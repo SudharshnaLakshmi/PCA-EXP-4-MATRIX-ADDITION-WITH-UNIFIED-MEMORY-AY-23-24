@@ -42,7 +42,7 @@ Allocate Host Memory
 ```
 ## With MemSets
 ```
-%%cuda
+%%writefile mem.cu
 #include <cuda_runtime.h>
 #include <stdio.h>
 #include <sys/time.h>
@@ -347,10 +347,13 @@ int main(int argc, char **argv)
 
     return (0);
 }
+!nvcc -o mem mem.cu
+!./mem
+!nvprof ./mem
 ```
 ## Without MemSets
 ```
-%%cuda
+%%writefile wmem.cu
 #include <cuda_runtime.h>
 #include <stdio.h>
 #include <sys/time.h>
@@ -650,13 +653,16 @@ int main(int argc, char **argv)
 
     return (0);
 }
+!nvcc -o wmem wmem.cu
+!./wmem
+!nvprof ./wmem
 ```
 ## OUTPUT:
 ### With MemSets
-![](mem.png)
+![](mem1.png)
 
 ### Without MemSets
-![](wmem.png)
+![](wmem1.png)
 
 ## RESULT:
-Thus the program has been executed by using unified memory. It is observed that removing memset function has given less 0.02 sec time.
+Thus the program has been executed by using unified memory. It is observed that removing memset function has given less 0.017889 (0.2) sec time.
